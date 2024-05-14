@@ -1,0 +1,47 @@
+body {
+    background: rgb(2,0,36);
+  background: linear-gradient(60deg, rgba(2,0,36,1) 50%, rgba(9,9,121,1) 75%, rgba(0,212,255,1) 100%);
+  color: rgb(230, 230, 230);
+    text-align: center;
+    font-family: 'Indie Flower', 'Comic Sans', cursive;
+    font-size: 0.7em;
+  }
+  h1 {
+    line-height: 1em;
+    margin-bottom: 0;
+    padding-bottom: 5px;
+    font-size: 2.8em;
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+  
+  }
+  h3 {
+    font-size: 1.1em;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    padding: 0;
+    margin: 10px 0 2px 0;
+  }
+  table {
+    margin: 2% auto;
+    border-collapse: collapse;
+  }
+  #table_game {
+    position: relative;
+    font-size: 120px;
+    margin: 1% auto;
+    border-collapse: collapse;
+  }
+  .td_game {
+    border: 4px solid rgb(230, 230, 230);
+    width: 90px;
+    height: 90px;
+    padding: 0;
+    vertical-align: middle;
+    text-align: center;
+  }
