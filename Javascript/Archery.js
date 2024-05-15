@@ -16,7 +16,6 @@ var lineSegment = {
 	x2: 925,
 	y2: 220
 };
-
 // bow rotation point
 var pivot = {
 	x: 100,
@@ -26,9 +25,6 @@ aim({
 	clientX: 320,
 	clientY: 300
 });
-
-
-
 // set up start drag event
 window.addEventListener("mousedown", draw);
 
@@ -42,9 +38,6 @@ function draw(e) {
 	window.addEventListener("mouseup", loose);
 	aim(e);
 }
-
-
-
 function aim(e) {
 	// get mouse position in relation to svg position and scale
 	var point = getMouseSVG(e);
