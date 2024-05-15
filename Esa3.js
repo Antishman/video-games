@@ -393,7 +393,7 @@ function makeComputerMove() {
                 cell = 0;
             }
         }
-    } else if (moves === 1 && myGrid.cells[4] == player && difficulty == 1) {
+     else if (moves === 1 && myGrid.cells[4] == player && difficulty == 1) {
         // if player is X and played center, play one of the corners
         cell = corners[intRandom(0,3)];
     } else if (moves === 2 && myGrid.cells[4] == player && computer == x && difficulty == 1) {
@@ -442,4 +442,177 @@ function makeComputerMove() {
     if (winner === 0 && !gameOver) {
         whoseTurn = player;
     }
+
+
+// Check if the game is over and determine winner
+function checkWin() {
+    winner = 0;
+
+    // rows
+    for (var i = 0; i <= 2; i++) {
+        var row = myGrid.getRowValues(i);
+        if (row[0] > 0 && row[0] == row[1] && row[0] == row[2]) {
+            if (row[0] == computer) {
+                score.computer++;
+                winner = computer;
+                // console.log("computer wins");
+            } else {
+                score.player++;
+                winner = player;
+                // console.log("player wins");
+            }
+            // Give the winning row/column/diagonal a different bg-color
+            var tmpAr = myGrid.getRowIndices(i);
+            for (var j = 0; j < tmpAr.length; j++) {
+                var str = "cell" + tmpAr[j];
+                document.getElementById(str).classList.add("win-color");
+            }
+            setTimeout(endGame, 1000, winner);
+            return winner;
+        }
+    }
+
+    // columns
+    for (i = 0; i <= 2; i++) {
+        var col = myGrid.getColumnValues(i);
+        if (col[0] > 0 && col[0] == col[1] && col[0] == col[2]) {
+            if (col[0] == computer) {
+                score.computer++;
+                winner = computer;
+                // console.log("computer wins");
+            } else {
+                score.player++;
+                winner = player;
+                // console.log("player wins");
+            }
+            // Give the winning row/column/diagonal a different bg-color
+            var tmpAr = myGrid.getColumnIndices(i);
+            for (var j = 0; j < tmpAr.length; j++) {
+                var str = "cell" + tmpAr[j];
+                document.getElementById(str).classList.add("win-color");
+            }
+            setTimeout(endGame, 1000, winner);
+            return winner;
+        }
+    }
+
+    // diagonals
+    for (i = 0; i <= 1; i++) {
+        var diagonal = myGrid.getDiagValues(i);
+        if (diagonal[0] > 0 && diagonal[0] == diagonal[1] && diagonal[0] == diagonal[2]) {
+            if (diagonal[0] == computer) {
+                score.computer++;
+                winner = computer;
+                // console.log("computer wins");
+            } else {
+                score.player++;
+                winner = player;
+                // console.log("player wins");
+            }
+            // Give the winning row/column/diagonal a different bg-color
+            var tmpAr = myGrid.getDiagIndices(i);
+            for (var j = 0; j < tmpAr.length; j++) {
+                var str = "cell" + tmpAr[j];
+                document.getElementById(str).classList.add("win-color");
+            }
+            setTimeout(endGame, 1000, winner);
+            return winner;
+        }
+    }
+
+    // If we haven't returned a winner by now, if the board is full, it's a tie
+    var myArr = myGrid.getFreeCellIndices();
+    if (myArr.length === 0) {
+        winner = 10;
+        score.ties++;
+        endGame(winner);
+        return winner;
+    }
+
+    return winner;
+}
+
+function announceWinner(text) {
+    document.getElementById("winText").innerHTML = text;
+    document.getElementById("winAnnounce").style.display = "block";
+    setTimeout(closeModal, 1400, "winAnnounce");
+}
+
+function askUser(text) {
+    document.getElementById("questionText").innerHTML = text;
+    document.getElementById("userFeedback").style.display = "block";
+}
+
+function showOptions() {
+    if (player == o) {
+        document.getElementById("rx").checked = false;
+        document.getElementById("ro").checked = true;
+    }
+    else if (player == x) {
+        document.getElementById("rx").checked = true;
+        document.getElementById("ro").checked = false;
+    }
+    if (difficulty === 0) {
+        document.getElementById("r0").checked = true;
+        document.getElementById("r1").checked = false;
+    }
+    else {
+        document.getElementById("r0").checked = false;
+        document.getElementById("r1").checked = true;
+    }
+    document.getElementById("optionsDlg").style.display = "block";
+}
+
+function getOptions() {
+    var diffs = document.getElementsByName('difficulty');
+    for (var i = 0; i < diffs.length; i++) {
+        if (diffs[i].checked) {
+            difficulty = parseInt(diffs[i].value);
+            break;
+            // debugger;
+        }
+    }
+    if (document.getElementById('rx').checked === true) {
+        player = x;
+        computer = o;
+        whoseTurn = player;
+        playerText = xText;
+        computerText = oText;
+    }
+    else {
+        player = o;
+        computer = x;
+        whoseTurn = computer;
+        playerText = oText;
+        computerText = xText;
+        setTimeout(makeComputerMove, 400);
+    }
+    document.getElementById("optionsDlg").style.display = "none";
+}
+
+function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+}
+
+function endGame(who) {
+    if (who == player) {
+        announceWinner("Congratulations, you won!");
+    } else if (who == computer) {
+        announceWinner("Computer wins!");
+    } else {
+        announceWinner("It's a tie!");
+    }
+    gameOver = true;
+    whoseTurn = 0;
+    moves = 0;
+    winner = 0;
+    document.getElementById("computer_score").innerHTML = score.computer;
+    document.getElementById("tie_score").innerHTML = score.ties;
+    document.getElementById("player_score").innerHTML = score.player;
+    for (var i = 0; i <= 8; i++) {
+        var id = "cell" + i.toString();
+        document.getElementById(id).style.cursor = "default";
+    }
+    setTimeout(restartGame, 800);
+}
 
