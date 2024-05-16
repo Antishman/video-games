@@ -197,3 +197,6 @@ function startNewGame() {
     startGame.setupNewWord();
   }
 
+let startGame = new Hangman(); //initiates first game on windo load
+  startGame.setupNewWord();
+};
